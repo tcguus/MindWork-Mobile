@@ -83,7 +83,7 @@ export default function HistoryScreen({ navigation }) {
     const renderItem = ({ item }) => (
         <TouchableOpacity
             style={styles.card}
-            onPress={() => console.log('ID:', item.id)}
+            onPress={() => navigation.navigate('AssessmentDetails', { assessment: item })}
         >
             <View style={styles.cardHeader}>
                 <View style={styles.dateContainer}>

@@ -3,63 +3,66 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawerContent from './CustomDrawerContent';
 import { colors } from '../theme';
 
-// Import das telas reais
+// IMPORTAR AS TELAS
 import HomeScreen from '../screens/Dashboard/HomeScreen';
-import NewAssessmentScreen from '../screens/Assessments/NewAssessmentScreen';
+import NewAssessmentScreen from '../screens/Assessments/NewAssessmentScreen'; 
+import AssessmentDetailsScreen from '../screens/Assessments/AssessmentDetailsScreen';
 import HistoryScreen from '../screens/Assessments/HistoryScreen';
 
-// Componente Placeholder para as telas que ainda não fizemos
+// Placeholder para telas faltantes
 import { View, Text } from 'react-native';
 const Placeholder = ({ title }) => (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
-        <Text style={{ color: colors.primary }}>{title}</Text>
-    </View>
+  <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor: colors.background}}>
+    <Text style={{color: colors.primary}}>{title}</Text>
+  </View>
 );
 
 const Drawer = createDrawerNavigator();
 
 export default function AppNavigator() {
-    return (
-        <Drawer.Navigator
-            drawerContent={(props) => <CustomDrawerContent {...props} />}
-            screenOptions={{
-                headerStyle: { backgroundColor: colors.primary },
-                headerTintColor: colors.secondary,
-                drawerActiveTintColor: colors.primary,
-                drawerInactiveTintColor: colors.neutral,
-                drawerLabelStyle: { fontWeight: 'bold' },
-                sceneContainerStyle: { backgroundColor: colors.background }
-            }}
-        >
-            <Drawer.Screen
-                name="Dashboard"
-                component={HomeScreen}
-                options={{ title: 'Início' }}
-            />
+  return (
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: colors.secondary,
+        drawerActiveTintColor: colors.primary,
+        sceneContainerStyle: { backgroundColor: colors.background }
+      }}
+    >
+      {/* 1. Início */}
+      <Drawer.Screen name="Dashboard" component={HomeScreen} options={{ title: 'Início' }} />
+      
+      {/* 2. Nova Avaliação (VISÍVEL NO MENU) */}
+      {/* Usaremos essa mesma tela para editar, mas via código */}
+      <Drawer.Screen 
+        name="NewAssessment" 
+        component={NewAssessmentScreen} 
+        options={{ title: 'Nova Avaliação' }} 
+      />
 
-            <Drawer.Screen
-                name="NewAssessment"
-                component={NewAssessmentScreen}
-                options={{ title: 'Nova Avaliação' }}
-            />
+      {/* 3. Minhas Avaliações */}
+      <Drawer.Screen name="History" component={HistoryScreen} options={{ title: 'Minhas Avaliações' }} />
+      
+      {/* 4. Outras telas */}
+      <Drawer.Screen name="Profile" component={() => <Placeholder title="Perfil" />} options={{ title: 'Meu Perfil' }} />
+      <Drawer.Screen name="About" component={() => <Placeholder title="Sobre" />} options={{ title: 'Sobre o App' }} />
 
-            <Drawer.Screen
-                name="History"
-                component={HistoryScreen}
-                options={{ title: 'Minhas Avaliações' }}
-            />
+      {/* --- TELAS ESCONDIDAS DO MENU (Display: None) --- */}
+      
+      {/* Detalhes */}
+      <Drawer.Screen 
+        name="AssessmentDetails" 
+        component={AssessmentDetailsScreen} 
+        options={{ 
+          title: 'Detalhes',
+          drawerItemStyle: { display: 'none' } 
+        }} 
+      />
 
-            <Drawer.Screen
-                name="Profile"
-                component={() => <Placeholder title="Perfil" />}
-                options={{ title: 'Meu Perfil' }}
-            />
+      {/* NOTA: Não precisa criar uma rota "EditarAvaliação" aqui. 
+          O botão de editar na tela de detalhes vai mandar para "NewAssessment" com dados. */}
 
-            <Drawer.Screen
-                name="About"
-                component={() => <Placeholder title="Sobre" />}
-                options={{ title: 'Sobre o App' }}
-            />
-        </Drawer.Navigator>
-    );
+    </Drawer.Navigator>
+  );
 }

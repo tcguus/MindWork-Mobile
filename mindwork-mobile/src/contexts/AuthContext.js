@@ -30,9 +30,18 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (email, password) => {
     try {
       const response = await api.post('/auth/login', { email, password });
+      
+      // A API retorna token, nome e role
       const { token, fullName, role } = response.data;
 
-      const userData = { fullName, role };
+      // --- CORREÇÃO AQUI: Adicionamos o 'email' que veio do parâmetro ---
+      const userData = { 
+        fullName, 
+        role, 
+        email // <--- AGORA O EMAIL SERÁ SALVO
+      }; 
+      
+      api.defaults.headers.Authorization = `Bearer ${token}`;
       
       await AsyncStorage.setItem('userToken', token);
       await AsyncStorage.setItem('userData', JSON.stringify(userData));
@@ -40,10 +49,7 @@ export const AuthProvider = ({ children }) => {
       setAuthData({ token, user: userData });
       return { success: true };
     } catch (error) {
-      return { 
-        success: false, 
-        message: error.response?.data?.message || "Falha ao entrar." 
-      };
+      return { success: false, message: error.response?.data?.title || "Falha no login" };
     }
   };
 

@@ -1,53 +1,48 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { colors, spacing } from '../../theme';
-import api from '../../services/api'; // Importando api direto para o cadastro
+import api from '../../services/api';
 
 export default function RegisterScreen({ navigation }) {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState('Collaborator'); // Padrão: Colaborador
+    const [role, setRole] = useState('Collaborator'); 
     const [loading, setLoading] = useState(false);
 
     async function handleRegister() {
-    if (!fullName || !email || !password) {
-      return Alert.alert('Erro', 'Preencha todos os campos.');
-    }
+        if (!fullName || !email || !password) {
+            return Alert.alert('Erro', 'Preencha todos os campos.');
+        }
 
-    setLoading(true);
-    try {
-      await api.post('/auth/register', {
-        fullName,
-        email,
-        password,
-        role
-      });
+        setLoading(true);
+        try {
+            await api.post('/auth/register', {
+                fullName,
+                email,
+                password,
+                role
+            });
 
-      Alert.alert('Sucesso', 'Conta criada! Faça login para continuar.', [
-        { text: 'OK', onPress: () => navigation.goBack() }
-      ]);
-    } catch (error) {
-      console.log(error);
-      
-      // --- MELHORIA AQUI ---
-      if (error.response && error.response.status === 409) {
-        Alert.alert('Atenção', 'Este e-mail já está cadastrado. Tente fazer login.');
-      } else {
-        Alert.alert('Erro', 'Não foi possível criar a conta. Tente novamente.');
-      }
-      // ---------------------
-      
-    } finally {
-      setLoading(false);
+            Alert.alert('Sucesso', 'Conta criada! Faça login para continuar.', [
+                { text: 'OK', onPress: () => navigation.goBack() }
+            ]);
+        } catch (error) {
+            console.log(error);
+            if (error.response && error.response.status === 409) {
+                Alert.alert('Atenção', 'Este e-mail já está cadastrado. Tente fazer login.');
+            } else {
+                Alert.alert('Erro', 'Não foi possível criar a conta. Tente novamente.');
+            }
+        } finally {
+            setLoading(false);
+        }
     }
-  }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.title}>Crie sua conta</Text>
             <Text style={styles.subtitle}>Junte-se ao MindWork</Text>
-
             <View style={styles.form}>
                 <Text style={styles.label}>Nome Completo</Text>
                 <TextInput
@@ -56,7 +51,6 @@ export default function RegisterScreen({ navigation }) {
                     value={fullName}
                     onChangeText={setFullName}
                 />
-
                 <Text style={styles.label}>E-mail Corporativo</Text>
                 <TextInput
                     style={styles.input}
@@ -66,7 +60,6 @@ export default function RegisterScreen({ navigation }) {
                     value={email}
                     onChangeText={setEmail}
                 />
-
                 <Text style={styles.label}>Senha</Text>
                 <TextInput
                     style={styles.input}
@@ -75,8 +68,6 @@ export default function RegisterScreen({ navigation }) {
                     value={password}
                     onChangeText={setPassword}
                 />
-
-                {/* Seletor de Tipo de Usuário (Simplificado) */}
                 <Text style={styles.label}>Eu sou:</Text>
                 <View style={styles.roleContainer}>
                     <TouchableOpacity
@@ -85,7 +76,6 @@ export default function RegisterScreen({ navigation }) {
                     >
                         <Text style={[styles.roleText, role === 'Collaborator' && styles.roleTextSelected]}>Colaborador</Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                         style={[styles.roleButton, role === 'Manager' && styles.roleSelected]}
                         onPress={() => setRole('Manager')}
@@ -93,11 +83,9 @@ export default function RegisterScreen({ navigation }) {
                         <Text style={[styles.roleText, role === 'Manager' && styles.roleTextSelected]}>Gestor</Text>
                     </TouchableOpacity>
                 </View>
-
                 <TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
                     {loading ? <ActivityIndicator color={colors.secondary} /> : <Text style={styles.buttonText}>CADASTRAR</Text>}
                 </TouchableOpacity>
-
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.linkButton}>
                     <Text style={styles.linkText}>Já tenho conta. <Text style={{ fontWeight: 'bold' }}>Voltar.</Text></Text>
                 </TouchableOpacity>
@@ -117,7 +105,6 @@ const styles = StyleSheet.create({
     buttonText: { color: colors.secondary, fontWeight: 'bold', fontSize: 16 },
     linkButton: { marginTop: 20, alignItems: 'center' },
     linkText: { color: colors.primary },
-
     roleContainer: { flexDirection: 'row', marginBottom: 20, gap: 10 },
     roleButton: { flex: 1, padding: 10, borderRadius: 8, borderWidth: 1, borderColor: colors.primary, alignItems: 'center' },
     roleSelected: { backgroundColor: colors.primary },

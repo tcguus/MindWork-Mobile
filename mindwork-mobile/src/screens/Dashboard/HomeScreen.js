@@ -12,7 +12,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '../../contexts/AuthContext';
 import api from '../../services/api';
 import { colors, spacing } from '../../theme';
-import { Ionicons } from '@expo/vector-icons'; // Biblioteca de ícones padrão do Expo
+import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
     const { authData } = useAuth();
@@ -20,36 +20,29 @@ export default function HomeScreen({ navigation }) {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    // Função para buscar recomendações da API
     async function fetchDashboardData() {
         try {
-            // Chama o endpoint da IA que criamos na API .NET
             const response = await api.get('/ai/recommendations/me');
             setRecommendations(response.data);
         } catch (error) {
             console.log('Erro ao buscar recomendações:', error);
-            // Não vamos exibir alerta aqui para não ser intrusivo na Home, 
-            // apenas logamos e deixamos a lista vazia ou com mensagem padrão.
         } finally {
             setLoading(false);
             setRefreshing(false);
         }
     }
 
-    // Atualiza os dados toda vez que a tela ganha foco (entra nela)
     useFocusEffect(
         useCallback(() => {
             fetchDashboardData();
         }, [])
     );
 
-    // Função para o "Puxar para atualizar"
     const onRefresh = () => {
         setRefreshing(true);
         fetchDashboardData();
     };
 
-    // Pega o primeiro nome do usuário para exibir
     const firstName = authData?.user?.fullName?.split(' ')[0] || 'Colaborador';
 
     return (
@@ -60,14 +53,10 @@ export default function HomeScreen({ navigation }) {
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.primary]} />
                 }
             >
-
-                {/* --- CABEÇALHO --- */}
                 <View style={styles.header}>
                     <Text style={styles.greeting}>Olá, {firstName}!</Text>
                     <Text style={styles.date}>{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</Text>
                 </View>
-
-                {/* --- CARD DE AÇÃO RÁPIDA (CHECK-IN) --- */}
                 <View style={styles.actionCard}>
                     <View>
                         <Text style={styles.actionTitle}>Como você está?</Text>
@@ -75,14 +64,12 @@ export default function HomeScreen({ navigation }) {
                     </View>
                     <TouchableOpacity
                         style={styles.actionButton}
-                        onPress={() => navigation.navigate('NewAssessment')} // Vai para a tela de criar
+                        onPress={() => navigation.navigate('NewAssessment')}
                     >
                         <Text style={styles.actionButtonText}>Avaliar</Text>
                         <Ionicons name="arrow-forward" size={20} color={colors.primary} />
                     </TouchableOpacity>
                 </View>
-
-                {/* --- SEÇÃO DE RECOMENDAÇÕES (IA) --- */}
                 <Text style={styles.sectionTitle}>Dicas para você</Text>
 
                 {loading ? (
@@ -101,7 +88,6 @@ export default function HomeScreen({ navigation }) {
                                 </View>
                             ))
                         ) : (
-                            // Estado Vazio (Caso a API não retorne nada ainda)
                             <View style={styles.emptyState}>
                                 <Ionicons name="happy-outline" size={48} color={colors.neutral} />
                                 <Text style={styles.emptyText}>Tudo tranquilo por aqui!</Text>
@@ -110,7 +96,6 @@ export default function HomeScreen({ navigation }) {
                         )}
                     </View>
                 )}
-
             </ScrollView>
         </View>
     );
@@ -137,8 +122,6 @@ const styles = StyleSheet.create({
         color: colors.neutral,
         textTransform: 'capitalize',
     },
-
-    // Estilos do Card de Ação (Azul Escuro)
     actionCard: {
         backgroundColor: colors.primary,
         borderRadius: 16,
@@ -147,8 +130,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: spacing.large,
-        elevation: 4, // Sombra no Android
-        shadowColor: '#000', // Sombra no iOS
+        elevation: 4,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
@@ -175,7 +158,6 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontWeight: 'bold',
     },
-
     sectionTitle: {
         fontSize: 20,
         fontWeight: 'bold',

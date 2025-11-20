@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const userJson = await AsyncStorage.getItem('userData');
-      
+
       if (token && userJson) {
         setAuthData({ token, user: JSON.parse(userJson) });
       }
@@ -30,19 +30,17 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (email, password) => {
     try {
       const response = await api.post('/auth/login', { email, password });
-      
-      // A API retorna token, nome e role
+
       const { token, fullName, role } = response.data;
 
-      // --- CORREÇÃO AQUI: Adicionamos o 'email' que veio do parâmetro ---
-      const userData = { 
-        fullName, 
-        role, 
-        email // <--- AGORA O EMAIL SERÁ SALVO
-      }; 
-      
+      const userData = {
+        fullName,
+        role,
+        email
+      };
+
       api.defaults.headers.Authorization = `Bearer ${token}`;
-      
+
       await AsyncStorage.setItem('userToken', token);
       await AsyncStorage.setItem('userData', JSON.stringify(userData));
 

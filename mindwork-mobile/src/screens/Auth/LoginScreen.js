@@ -13,7 +13,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { colors, spacing } from '../../theme';
 import Logo from '../../../assets/MindWork-logo.jpg';
 
-export default function LoginScreen({ navigation }) { // <--- Importante: receber { navigation } aqui
+export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -34,10 +34,8 @@ export default function LoginScreen({ navigation }) { // <--- Importante: recebe
     return (
         <View style={styles.container}>
             <Image source={Logo} style={styles.logo} />
-
             <Text style={styles.title}>MINDWORK</Text>
             <Text style={styles.subtitle}>Saúde mental corporativa</Text>
-
             <View style={styles.form}>
                 <TextInput
                     style={styles.input}
@@ -48,7 +46,6 @@ export default function LoginScreen({ navigation }) { // <--- Importante: recebe
                     autoCapitalize="none"
                     keyboardType="email-address"
                 />
-
                 <TextInput
                     style={styles.input}
                     placeholder="Senha"
@@ -57,7 +54,6 @@ export default function LoginScreen({ navigation }) { // <--- Importante: recebe
                     onChangeText={setPassword}
                     secureTextEntry
                 />
-
                 <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
                     {loading ? (
                         <ActivityIndicator color={colors.secondary} />
@@ -65,8 +61,6 @@ export default function LoginScreen({ navigation }) { // <--- Importante: recebe
                         <Text style={styles.buttonText}>ENTRAR</Text>
                     )}
                 </TouchableOpacity>
-
-                {/* --- NOVO BOTÃO DE CADASTRO AQUI --- */}
                 <TouchableOpacity
                     style={styles.registerButton}
                     onPress={() => navigation.navigate('Register')}
@@ -75,8 +69,6 @@ export default function LoginScreen({ navigation }) { // <--- Importante: recebe
                         Não tem uma conta? <Text style={styles.registerLink}>Cadastre-se</Text>
                     </Text>
                 </TouchableOpacity>
-                {/* ----------------------------------- */}
-
             </View>
         </View>
     );
@@ -111,8 +103,6 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     buttonText: { color: colors.secondary, fontWeight: 'bold', fontSize: 16 },
-
-    // Estilos do botão de cadastro
     registerButton: {
         marginTop: 20,
         alignItems: 'center',

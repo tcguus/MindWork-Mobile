@@ -13,11 +13,9 @@ import { colors, spacing } from '../../theme';
 import api from '../../services/api';
 
 export default function AssessmentDetailsScreen({ route, navigation }) {
-    // Recebe os dados da avaliação vindos da tela anterior (Histórico)
     const { assessment } = route.params;
     const [loading, setLoading] = useState(false);
 
-    // Função de Exclusão (DELETE)
     async function handleDelete() {
         Alert.alert(
             'Excluir Avaliação',
@@ -32,7 +30,7 @@ export default function AssessmentDetailsScreen({ route, navigation }) {
                         try {
                             await api.delete(`/selfassessments/${assessment.id}`);
                             Alert.alert('Sucesso', 'Registro removido.');
-                            navigation.goBack(); // Volta para o Histórico
+                            navigation.goBack();
                         } catch (error) {
                             console.log(error);
                             Alert.alert('Erro', 'Não foi possível excluir.');
@@ -45,12 +43,10 @@ export default function AssessmentDetailsScreen({ route, navigation }) {
         );
     }
 
-    // Função de Edição (Navega para o formulário passando os dados)
     function handleEdit() {
         navigation.navigate('NewAssessment', { assessmentData: assessment });
     }
 
-    // Helpers visuais (mesmos da tela de criação)
     const getMoodIcon = (mood) => {
         const icons = {
             1: 'thunderstorm-outline',
@@ -75,8 +71,6 @@ export default function AssessmentDetailsScreen({ route, navigation }) {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-
-            {/* DATA E HORA */}
             <View style={styles.header}>
                 <Ionicons name="calendar" size={20} color={colors.neutral} />
                 <Text style={styles.dateText}>
@@ -85,8 +79,6 @@ export default function AssessmentDetailsScreen({ route, navigation }) {
                     })}
                 </Text>
             </View>
-
-            {/* CARD PRINCIPAL - HUMOR */}
             <View style={styles.card}>
                 <Text style={styles.cardTitle}>Humor Registrado</Text>
                 <View style={styles.moodContainer}>
@@ -94,8 +86,6 @@ export default function AssessmentDetailsScreen({ route, navigation }) {
                     <Text style={styles.moodLabel}>{getMoodLabel(assessment.mood)}</Text>
                 </View>
             </View>
-
-            {/* INDICADORES DE NÍVEL */}
             <View style={styles.row}>
                 <View style={[styles.card, styles.halfCard]}>
                     <Text style={styles.cardTitle}>Estresse</Text>
@@ -106,7 +96,6 @@ export default function AssessmentDetailsScreen({ route, navigation }) {
                     </View>
                     <Text style={styles.legend}>Nível 1 a 5</Text>
                 </View>
-
                 <View style={[styles.card, styles.halfCard]}>
                     <Text style={styles.cardTitle}>Carga</Text>
                     <View style={[styles.circle, assessment.workload > 3 && styles.circleAlert]}>
@@ -117,22 +106,17 @@ export default function AssessmentDetailsScreen({ route, navigation }) {
                     <Text style={styles.legend}>Nível 1 a 5</Text>
                 </View>
             </View>
-
-            {/* NOTAS */}
             <View style={styles.card}>
                 <Text style={styles.cardTitle}>Anotações</Text>
                 <Text style={styles.notesText}>
                     {assessment.notes ? assessment.notes : 'Nenhuma observação registrada.'}
                 </Text>
             </View>
-
-            {/* BOTÕES DE AÇÃO */}
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
                     <Ionicons name="create-outline" size={20} color={colors.background} />
                     <Text style={styles.buttonText}>Editar</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity style={styles.deleteButton} onPress={handleDelete} disabled={loading}>
                     {loading ? (
                         <ActivityIndicator color={colors.white} />
@@ -144,7 +128,6 @@ export default function AssessmentDetailsScreen({ route, navigation }) {
                     )}
                 </TouchableOpacity>
             </View>
-
         </ScrollView>
     );
 }
@@ -153,24 +136,18 @@ const styles = StyleSheet.create({
     container: { padding: spacing.large, backgroundColor: colors.background, paddingBottom: 40 },
     header: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.large, gap: 8 },
     dateText: { fontSize: 16, color: colors.neutral, textTransform: 'capitalize' },
-
     card: { backgroundColor: colors.surface, borderRadius: 12, padding: spacing.medium, marginBottom: spacing.medium, elevation: 2 },
     cardTitle: { fontSize: 14, color: colors.neutral, fontWeight: 'bold', marginBottom: 10, textTransform: 'uppercase' },
-
     moodContainer: { alignItems: 'center', gap: 10 },
     moodLabel: { fontSize: 18, fontWeight: 'bold', color: colors.primary, textAlign: 'center' },
-
     row: { flexDirection: 'row', gap: spacing.medium },
     halfCard: { flex: 1, alignItems: 'center' },
-
     circle: { width: 50, height: 50, borderRadius: 25, backgroundColor: '#E0E0E0', justifyContent: 'center', alignItems: 'center' },
-    circleAlert: { backgroundColor: '#FADBD8' }, // Fundo vermelho claro
+    circleAlert: { backgroundColor: '#FADBD8' },
     circleText: { fontSize: 24, fontWeight: 'bold', color: colors.text },
     textAlert: { color: colors.error },
     legend: { fontSize: 12, color: colors.neutral, marginTop: 5 },
-
     notesText: { fontSize: 16, color: colors.text, fontStyle: 'italic', lineHeight: 24 },
-
     footer: { flexDirection: 'row', gap: spacing.medium, marginTop: spacing.medium },
     editButton: { flex: 1, backgroundColor: colors.primary, padding: 15, borderRadius: 8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8 },
     deleteButton: { flex: 1, backgroundColor: colors.error, padding: 15, borderRadius: 8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8 },

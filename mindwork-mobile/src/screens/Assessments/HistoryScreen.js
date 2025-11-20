@@ -18,28 +18,21 @@ export default function HistoryScreen({ navigation }) {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    // Função para buscar dados
     async function fetchHistory() {
         try {
             console.log("--- BUSCANDO HISTÓRICO ---");
             const response = await api.get('/selfassessments/my?pageNumber=1&pageSize=20');
 
             console.log("STATUS:", response.status);
-            // console.log("DADOS:", JSON.stringify(response.data, null, 2)); // Descomente se precisar ver todo o JSON
-
-            // LÓGICA BLINDADA PARA ENCONTRAR A LISTA
             if (Array.isArray(response.data)) {
-                // Caso 1: A API retorna a lista direto (ex: [{}, {}])
                 console.log("Formato detectado: Array Direto");
                 setAssessments(response.data);
             }
             else if (response.data && Array.isArray(response.data.data)) {
-                // Caso 2: A API retorna paginado em .data (ex: { data: [], total: 10 })
                 console.log("Formato detectado: Paginado (.data)");
                 setAssessments(response.data.data);
             }
             else if (response.data && Array.isArray(response.data.items)) {
-                // Caso 3: A API retorna paginado em .items
                 console.log("Formato detectado: Paginado (.items)");
                 setAssessments(response.data.items);
             }
@@ -62,7 +55,6 @@ export default function HistoryScreen({ navigation }) {
         }, [])
     );
 
-    // Mapeamento de ícones (Versão Clima - Mais segura)
     const getMoodIcon = (mood) => {
         const icons = {
             1: 'thunderstorm-outline',
@@ -100,9 +92,7 @@ export default function HistoryScreen({ navigation }) {
                     color={getMoodColor(item.mood)}
                 />
             </View>
-
             <View style={styles.divider} />
-
             <View style={styles.statsContainer}>
                 <View style={styles.statItem}>
                     <Text style={styles.statLabel}>Estresse</Text>
@@ -110,7 +100,6 @@ export default function HistoryScreen({ navigation }) {
                         <Text style={[styles.badgeText, item.stress > 3 && styles.badgeTextAlert]}>{item.stress}/5</Text>
                     </View>
                 </View>
-
                 <View style={styles.statItem}>
                     <Text style={styles.statLabel}>Carga</Text>
                     <View style={[styles.badge, item.workload > 3 && styles.badgeAlert]}>
@@ -118,7 +107,6 @@ export default function HistoryScreen({ navigation }) {
                     </View>
                 </View>
             </View>
-
             {item.notes && (
                 <Text style={styles.notes} numberOfLines={1}>
                     "{item.notes}"

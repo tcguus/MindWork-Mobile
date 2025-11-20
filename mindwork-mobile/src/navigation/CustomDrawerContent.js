@@ -3,9 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { useAuth } from '../contexts/AuthContext';
 import { colors } from '../theme';
-
-// Importando o logo que salvamos no Passo 2
-import Logo from '../../assets/MindWork-logo.jpg'; 
+import Logo from '../../assets/MindWork-logo.jpg';
 
 export default function CustomDrawerContent(props) {
   const { signOut, authData } = useAuth();
@@ -19,17 +17,15 @@ export default function CustomDrawerContent(props) {
             Olá, {authData?.user?.fullName || 'Bem-vindo'}
           </Text>
         </View>
-        
         <View style={styles.listContainer}>
-           <DrawerItemList {...props} />
+          <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
-
       <View style={styles.footer}>
-        <DrawerItem 
-          label="Sair do App" 
+        <DrawerItem
+          label="Sair do App"
           onPress={signOut}
-          labelStyle={{ color: colors.error, fontWeight: 'bold' }} 
+          labelStyle={{ color: colors.error, fontWeight: 'bold' }}
         />
       </View>
     </View>

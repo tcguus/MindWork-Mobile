@@ -4,11 +4,11 @@
     "slug": "mindwork-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/MindWork-logo.jpg",
+    "icon": "./assets/MindWork-logo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/MindWork-logo.jpg",
+      "image": "./assets/MindWork-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,13 +18,13 @@
     "android": {
       "package": "com.mindwork.mobile",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/MindWork-logo.jpg",
+        "foregroundImage": "./assets/MindWork-logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/MindWork-logo.jpg"
+      "favicon": "./assets/MindWork-logo.png"
     },
     "extra": {
       "eas": {

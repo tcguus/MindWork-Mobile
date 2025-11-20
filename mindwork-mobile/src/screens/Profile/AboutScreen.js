@@ -40,7 +40,8 @@ export default function AboutScreen() {
             </View>
             <View style={styles.infoContainer}>
                 <Text style={styles.label}>Hash do Commit (Ref):</Text>
-                <Text style={styles.hash}>7f3a1b9</Text>
+                <Text style={styles.hash}>
+                    eefb6df </Text>
             </View>
             <TouchableOpacity style={styles.githubButton} onPress={handleOpenLink}>
                 <Text style={styles.githubText}>Ver Repositório no GitHub</Text>

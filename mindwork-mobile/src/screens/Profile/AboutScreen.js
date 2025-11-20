@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Linking, TouchableOpacity, ScrollView } from 'react-native';
 import { colors, spacing } from '../../theme';
-import Logo from '../../../assets/MindWork-logo.jpg';
+import Logo from '../../../assets/MindWork-logo.png';
 
 export default function AboutScreen() {
     const developers = [

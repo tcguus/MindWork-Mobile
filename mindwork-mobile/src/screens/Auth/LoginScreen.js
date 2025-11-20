@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { colors, spacing } from '../../theme';
-import Logo from '../../../assets/MindWork-logo.jpg';
+import Logo from '../../../assets/MindWork-logo.png';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -34,7 +34,6 @@ export default function LoginScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <Image source={Logo} style={styles.logo} />
-            <Text style={styles.title}>MINDWORK</Text>
             <Text style={styles.subtitle}>Saúde mental corporativa</Text>
             <View style={styles.form}>
                 <TextInput
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
         padding: spacing.large
     },
-    logo: { width: 120, height: 120, resizeMode: 'contain', marginBottom: spacing.medium },
+    logo: { width: 220, height: 220, resizeMode: 'contain', marginBottom: spacing.medium },
     title: { fontSize: 28, fontWeight: 'bold', color: colors.primary, letterSpacing: 2 },
     subtitle: { fontSize: 16, color: colors.neutral, marginBottom: 40 },
     form: { width: '100%' },

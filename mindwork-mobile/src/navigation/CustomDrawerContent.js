@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { useAuth } from '../contexts/AuthContext';
 import { colors } from '../theme';
-import Logo from '../../assets/MindWork-logo.jpg';
+import Logo from '../../assets/MindWork-logo.png';
 
 export default function CustomDrawerContent(props) {
   const { signOut, authData } = useAuth();
